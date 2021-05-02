@@ -1,0 +1,7 @@
+.App {
+  font-family: sans-serif;
+  max-width: 640px;
+  min-height: 100vh;
+  margin: auto;
+  position: relative;
+}
