@@ -13,9 +13,3 @@ model Task {
   deadline  DateTime
   priority  Int
 }
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-}
