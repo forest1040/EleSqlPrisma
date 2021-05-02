@@ -11,10 +11,13 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { PrismaClient } from '@prisma/client';
 import MenuBuilder from './menu';
+
+const prisma = new PrismaClient();
 
 export default class AppUpdater {
   constructor() {
@@ -116,11 +119,16 @@ const createWindow = async () => {
  * Add event listeners...
  */
 
+async function closeDB() {
+  await prisma.$disconnect();
+}
+
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
   if (process.platform !== 'darwin') {
     app.quit();
+    closeDB();
   }
 });
 
@@ -130,4 +138,29 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
+});
+
+ipcMain.handle('invoke-test', (event, message) => {
+  console.log(message);
+  return 'pong';
+});
+
+async function getTaskes() {
+  return await prisma.task.findMany();
+}
+
+ipcMain.handle('load-tasks', (event, message) => {
+  console.log(message);
+  return getTaskes();
+});
+
+async function createTaske(task: any) {
+  return await prisma.task.create({
+    data: task,
+  });
+}
+
+ipcMain.handle('create-task', (event, task) => {
+  console.log(task);
+  return createTaske(task);
 });

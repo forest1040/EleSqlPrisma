@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: '2rem',
       right: '2rem',
       '&:hover': {
-        backgroundColor: '#6666ff'
-      }
-    }
+        backgroundColor: '#6666ff',
+      },
+    },
   })
 );
 

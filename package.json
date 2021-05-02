@@ -232,6 +232,7 @@
     "node-sass": "^5.0.0",
     "opencollective-postinstall": "^2.0.3",
     "prettier": "^2.2.1",
+    "prisma": "^2.21.2",
     "react-refresh": "^0.10.0",
     "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
@@ -252,6 +253,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/pickers": "^3.3.10",
+    "@prisma/client": "^2.21.2",
     "date-fns": "2.14.0",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.3.5",
@@ -262,7 +264,8 @@
     "react-router-dom": "^5.2.0",
     "recoil": "^0.2.0",
     "regenerator-runtime": "^0.13.7",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "sqlite3": "^5.0.2"
   },
   "devEngines": {
     "node": ">=10.x",

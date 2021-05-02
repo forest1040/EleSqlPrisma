@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 
 import AppBar from './components/AppBar';
@@ -11,7 +11,9 @@ export default function App() {
     <RecoilRoot>
       <div className="App">
         <AppBar />
-        <TodoList />
+        <Suspense fallback={<p>Loading...</p>}>
+          <TodoList />
+        </Suspense>
       </div>
     </RecoilRoot>
   );

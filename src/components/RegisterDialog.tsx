@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
+import { ipcRenderer } from 'electron';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,7 +12,7 @@ import RDialogContent from './RDialogContent';
 import {
   taskContentState,
   taskDeadlineState,
-  taskPriorityState
+  taskPriorityState,
 } from '../atoms/RDialogContent';
 
 import { tasksState } from '../atoms/Tasks';
@@ -21,6 +22,16 @@ type Props = {
   onClose: () => void;
 };
 
+async function send() {
+  const data = await ipcRenderer.invoke('invoke-test', 'ping');
+  console.log(data);
+}
+
+async function createTask(newTask: any) {
+  await ipcRenderer.invoke('create-task', newTask);
+  //console.log(data);
+}
+
 export default function RegisterDialog({ open, onClose }: Props) {
   const taskContent = useRecoilValue(taskContentState);
   const taskDeadline = useRecoilValue(taskDeadlineState);
@@ -28,14 +39,15 @@ export default function RegisterDialog({ open, onClose }: Props) {
   const [tasks, setTasks] = useRecoilState(tasksState);
 
   const handleRegister = () => {
-    setTasks([
-      ...tasks,
-      {
-        content: taskContent,
-        deadline: taskDeadline,
-        priority: taskPriority
-      }
-    ]);
+    send();
+    const newTask = {
+      content: taskContent,
+      deadline: taskDeadline,
+      priority: taskPriority,
+    };
+
+    setTasks([...tasks, newTask]);
+    createTask(newTask);
     onClose();
   };
 
